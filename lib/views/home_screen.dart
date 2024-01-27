@@ -3,7 +3,15 @@ import 'package:flutter/material.dart';
 import 'widgets/recipe_card.dart';
 import '../models/recipe.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  TextEditingController searchController = TextEditingController();
+  List<Recipe> filteredRecipes = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,6 +65,16 @@ class HomeScreen extends StatelessWidget {
                 color: Colors.grey[200],
               ),
               child: TextField(
+                controller: searchController,
+                onChanged: (query) {
+                  setState(() {
+                    filteredRecipes = recipes
+                        .where((recipe) => recipe.title
+                            .toLowerCase()
+                            .contains(query.toLowerCase()))
+                        .toList();
+                  });
+                },
                 decoration: InputDecoration(
                   hintText: 'Search recipes...',
                   border: InputBorder.none,
@@ -66,9 +84,15 @@ class HomeScreen extends StatelessWidget {
             SizedBox(height: 16),
             Expanded(
               child: ListView.builder(
-                itemCount: recipes.length,
+                itemCount: filteredRecipes.isNotEmpty
+                    ? filteredRecipes.length
+                    : recipes.length,
                 itemBuilder: (context, index) {
-                  return RecipeCard(recipe: recipes[index]);
+                  return RecipeCard(
+                    recipe: filteredRecipes.isNotEmpty
+                        ? filteredRecipes[index]
+                        : recipes[index],
+                  );
                 },
               ),
             ),
