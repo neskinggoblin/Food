@@ -2,24 +2,31 @@
 import 'package:flutter/material.dart';
 import 'recipe.dart';
 
-class RecipeDetailsScreen extends StatelessWidget {
+class RecipeDetailsScreen extends StatefulWidget {
   final Recipe recipe;
 
   const RecipeDetailsScreen({Key? key, required this.recipe}) : super(key: key);
 
   @override
+  _RecipeDetailsScreenState createState() => _RecipeDetailsScreenState();
+}
+
+class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
+  bool ingredientsChecked = false;
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(recipe.title),
+        title: Text(widget.recipe.title),
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Image.network(
-              recipe.imageUrl,
-              height: 300, // Adjust the height as needed
+              widget.recipe.imageUrl,
+              height: 300,
               fit: BoxFit.cover,
             ),
             Padding(
@@ -28,7 +35,7 @@ class RecipeDetailsScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Details',
+                    'รายละเอียด',
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -36,14 +43,69 @@ class RecipeDetailsScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 8),
                   Text(
-                    recipe.description,
+                    widget.recipe.description,
                     style: TextStyle(fontSize: 16),
                   ),
-                  SizedBox(height: 16),
-                  _buildCard('เเสกนวัตถุดิบ', Icons.check_box),
-                  SizedBox(height: 16),
-                  _buildCard('ขั้นตอนการทำอาหาร', Icons.check_box),
-                  SizedBox(height: 16),
+                  SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: ingredientsChecked,
+                        onChanged: (value) {
+                          setState(() {
+                            ingredientsChecked = value!;
+                          });
+                        },
+                      ),
+                      Text(
+                        'เเสกนวัตถุดิบ',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: widget.recipe.ingredients.map((ingredient) {
+                      return ListTile(
+                        title: Text(
+                          '${ingredient.name}: ${ingredient.quantity}',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: ingredientsChecked,
+                        onChanged: (value) {
+                          setState(() {
+                            ingredientsChecked = value!;
+                          });
+                        },
+                      ),
+                      Text(
+                        'ขั้นตอนการทำ',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: widget.recipe.process.map((process) {
+                      return ListTile(
+                        title: Text(
+                          process.name,
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                  SizedBox(height: 32),
                   _buildThirdCard(),
                 ],
               ),
@@ -53,27 +115,6 @@ class RecipeDetailsScreen extends StatelessWidget {
       ),
     );
   }
-}
-
-Widget _buildCard(String title, IconData icon) {
-  return Card(
-    elevation: 3,
-    child: ListTile(
-      contentPadding: EdgeInsets.symmetric(
-          horizontal: 30.0, vertical: 8.0), // ปรับระยะห่างตามที่ต้องการ
-      title: Row(
-        children: [
-          Expanded(
-            child: Text(title),
-          ),
-          Icon(icon, size: 24.0), // ปรับขนาดของ Icon ตามที่ต้องการ
-        ],
-      ),
-      onTap: () {
-        // Handle card tap if needed
-      },
-    ),
-  );
 }
 
 Widget _buildThirdCard() {
@@ -90,11 +131,9 @@ Widget _buildThirdCard() {
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Color(0xffFF9900),
-              // เพิ่มขนาดของปุ่มที่นี่
               padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
               shape: RoundedRectangleBorder(
-                borderRadius:
-                    BorderRadius.circular(8.0), // ปรับความโค้งมนตามที่ต้องการ
+                borderRadius: BorderRadius.circular(8.0),
               ),
             ),
             child: Text(
