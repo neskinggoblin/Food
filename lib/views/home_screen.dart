@@ -1,7 +1,7 @@
 // home_screen.dart
 import 'package:flutter/material.dart';
-import 'recipe_card.dart';
-import 'recipe.dart';
+import 'widgets/recipe_card.dart';
+import '../models/recipe.dart';
 
 class HomeScreen extends StatelessWidget {
   @override

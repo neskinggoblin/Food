@@ -1,6 +1,6 @@
 // recipe_details.dart
 import 'package:flutter/material.dart';
-import 'recipe.dart';
+import '../../models/recipe.dart';
 
 class RecipeDetailsScreen extends StatefulWidget {
   final Recipe recipe;
