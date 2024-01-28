@@ -1,6 +1,7 @@
-// recipe_details.dart
-import 'package:flutter/material.dart';
+import 'recipe_step.dart';
 import '../../models/recipe.dart';
+import 'package:flutter/material.dart';
+// recipe_details.dart
 
 class RecipeDetailsScreen extends StatefulWidget {
   final Recipe recipe;
@@ -106,7 +107,7 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                     }).toList(),
                   ),
                   SizedBox(height: 32),
-                  _buildThirdCard(),
+                  _buildThirdCard(context),
                 ],
               ),
             ),
@@ -115,44 +116,50 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
       ),
     );
   }
-}
 
-Widget _buildThirdCard() {
-  return Card(
-    elevation: 3,
-    child: Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          ElevatedButton(
-            onPressed: () {
-              // Handle start button tap
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Color(0xffFF9900),
-              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0),
+  Widget _buildThirdCard(BuildContext context) {
+    return Card(
+      elevation: 3,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                // Navigate to RecipeStepScreen on button press
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => RecipeStepScreen(recipe: widget.recipe),
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xffFF9900),
+                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+              ),
+              child: Text(
+                'Start Cooking',
+                style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
               ),
             ),
-            child: Text(
-              'Start Cooking',
-              style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+            Image.asset(
+              'assets/img/scan_icon.png',
+              width: 60,
+              height: 60,
             ),
-          ),
-          Image.asset(
-            'assets/img/scan_icon.png',
-            width: 60,
-            height: 60,
-          ),
-          Image.asset(
-            'assets/img/score_icon.png',
-            width: 60,
-            height: 60,
-          ),
-        ],
+            Image.asset(
+              'assets/img/score_icon.png',
+              width: 60,
+              height: 60,
+            ),
+          ],
+        ),
       ),
-    ),
-  );
+    );
+  }
 }

@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'home_screen.dart';
+import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -56,7 +56,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       children: [
                         Image.asset(
                           'assets/img/Foodpad_logo.png',
-                          height: 100,
+                          height: 80,
                         ),
                       ],
                     ),
