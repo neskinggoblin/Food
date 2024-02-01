@@ -68,11 +68,21 @@ class _HomeScreenState extends State<HomeScreen> {
                 controller: searchController,
                 onChanged: (query) {
                   setState(() {
-                    filteredRecipes = recipes
-                        .where((recipe) => recipe.title
-                            .toLowerCase()
-                            .contains(query.toLowerCase()))
-                        .toList();
+                    filteredRecipes = recipes.where((recipe) {
+                      // Check if the recipe title contains the query
+                      bool titleContainsQuery = recipe.title
+                          .toLowerCase()
+                          .contains(query.toLowerCase());
+
+                      // Check if any ingredient name contains the query
+                      bool ingredientContainsQuery = recipe.ingredients.any(
+                          (ingredient) => ingredient.name
+                              .toLowerCase()
+                              .contains(query.toLowerCase()));
+
+                      // Return true if either title or ingredient name contains the query
+                      return titleContainsQuery || ingredientContainsQuery;
+                    }).toList();
                   });
                 },
                 decoration: InputDecoration(
@@ -83,18 +93,29 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             SizedBox(height: 16),
             Expanded(
-              child: ListView.builder(
-                itemCount: filteredRecipes.isNotEmpty
-                    ? filteredRecipes.length
-                    : recipes.length,
-                itemBuilder: (context, index) {
-                  return RecipeCard(
-                    recipe: filteredRecipes.isNotEmpty
-                        ? filteredRecipes[index]
-                        : recipes[index],
-                  );
-                },
-              ),
+              child: filteredRecipes.isNotEmpty || searchController.text.isEmpty
+                  ? ListView.builder(
+                      itemCount: filteredRecipes.isNotEmpty
+                          ? filteredRecipes.length
+                          : recipes.length,
+                      itemBuilder: (context, index) {
+                        return RecipeCard(
+                          recipe: filteredRecipes.isNotEmpty
+                              ? filteredRecipes[index]
+                              : recipes[index],
+                        );
+                      },
+                    )
+                  : Center(
+                      child: Text(
+                        'No matching recipes found.',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ),
             ),
           ],
         ),
