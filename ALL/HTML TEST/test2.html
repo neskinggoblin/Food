@@ -1,0 +1,19 @@
+<!-- ไฟล์ index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+</head>
+<body>
+  <h1>หน้า HTML บน Google Apps Script</h1>
+  <p>คลิกปุ่มด้านล่างเพื่อปิดหน้านี้:</p>
+  <button id="closeButton">ปิดหน้า</button>
+
+  <script>
+    // เพิ่มการทำงานเมื่อคลิกปุ่ม
+    document.getElementById('closeButton').addEventListener('click', function() {
+      window.close();
+    });
+  </script>
+</body>
+</html>

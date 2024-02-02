@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ฟอร์มตัวอย่าง</title>
+    <!-- เพิ่ม SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
+</head>
+<body>
+
+    <form id="myForm">
+        <div id="dropdownContainer">
+            <!-- เริ่มต้นด้วย dropdown list แรก -->
+            <!-- <div class="dropdown-container">
+              <button type="button" onclick="Adddevice()">เพิ่มประเภทอุปกรณ์</button>
+          </div> -->
+            <div id="dropdown-electric">
+                <button type="button" onclick="addDropdownelectric()">เพิ่มอุปกรณ์ไฟฟ้า</button>
+                <select name="dropdowntype[]">
+                    <option value="option1">ไฟฟ้า</option>
+                </select><br>
+            </div>
+            <div id="dropdown-IT">
+                <button type="button" onclick="addDropdownIT()">เพิ่มอุปกรณ์ไอที</button>
+                <select name="dropdowntype[]">
+                    <option value="option1">ไอที</option>
+                </select><br>
+            </div>
+            <div id="dropdown-plumbing">
+                <button type="button" onclick="addDropdownplumbing()">เพิ่มอุปกรณ์ประปา</button>
+                <select name="dropdowntype[]">
+                    <option value="option1">ประปา</option>
+                </select><br>
+            </div>
+            <div id="dropdown-other">
+                <button type="button" onclick="addDropdownother()">เพิ่มอุปกรณ์ทั่วไป</button>
+                <select name="dropdowntype[]">
+                    <option value="option1">ทั่วไป</option>
+                </select>
+            </div>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+
+<!-- เพิ่ม SweetAlert2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<script>
+    document.getElementById('myForm').addEventListener('submit', function (e) {
+        e.preventDefault(); // ป้องกันการส่งฟอร์มแบบปกติ
+
+        Swal.fire({
+            title: '...กรุณารอสักครู...',
+            text: '...ระบบกำลังบันทึกข้อมูล...',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            onBeforeOpen: () => {
+                Swal.showLoading(); // แสดง Loader
+            },
+            onClose: () => {
+                // เมื่อหน้าต่างข้อความแจ้งเตือนหายไป (หลังจาก 3 วินาที)
+                Swal.fire({
+                    title: 'บันทึกข้อมูลเสร็จสิ้น',
+                    icon: 'success',
+                    showCancelButton: false,
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.close(); // ปิดหน้าต่าง
+                    }
+                });
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
