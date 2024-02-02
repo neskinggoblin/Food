@@ -13,11 +13,50 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   TextEditingController searchController = TextEditingController();
   List<Recipe> filteredRecipes = [];
-  Query refQ = FirebaseDatabase.instance.ref().child('recipes');
   late Recipe recipe;
 
   // Global variable to store recipes from FirebaseAnimatedList
-  List<Recipe> allRecipes = [];
+  late List<Recipe> recipes;
+
+  @override
+  void initState() {
+    super.initState();
+    recipes = [];
+
+    DatabaseReference reference =
+        FirebaseDatabase.instance.reference().child('recipes');
+
+    reference.onChildAdded.listen((event) {
+      Map<dynamic, dynamic> values = event.snapshot.value as Map;
+
+      List<Ingredient> ingredients = [];
+      for (var ingredient in values['ingredients']) {
+        ingredients.add(Ingredient(
+          name: ingredient['name'],
+          quantity: ingredient['quantity'],
+        ));
+      }
+
+      List<Process> process = [];
+      for (var step in values['process']) {
+        process.add(Process(
+          name: step['name'],
+        ));
+      }
+
+      Recipe recipe = Recipe(
+        title: values['title'],
+        description: values['description'],
+        imageUrl: values['imageUrl'],
+        ingredients: ingredients,
+        process: process,
+      );
+
+      setState(() {
+        recipes.add(recipe);
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,15 +112,25 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               child: TextField(
                 controller: searchController,
-                /*onChanged: (query) {
+                onChanged: (query) {
                   setState(() {
-                    filteredRecipes = recipes
-                        .where((recipe) => recipe.title
-                            .toLowerCase()
-                            .contains(query.toLowerCase()))
-                        .toList();
+                    filteredRecipes = recipes.where((recipe) {
+                      // Check if the recipe title contains the query
+                      bool titleContainsQuery = recipe.title
+                          .toLowerCase()
+                          .contains(query.toLowerCase());
+
+                      // Check if any ingredient name contains the query
+                      bool ingredientContainsQuery = recipe.ingredients.any(
+                          (ingredient) => ingredient.name
+                              .toLowerCase()
+                              .contains(query.toLowerCase()));
+
+                      // Return true if either title or ingredient name contains the query
+                      return titleContainsQuery || ingredientContainsQuery;
+                    }).toList();
                   });
-                },*/
+                },
                 decoration: InputDecoration(
                   hintText: 'Search recipes...',
                   border: InputBorder.none,
@@ -90,34 +139,29 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             SizedBox(height: 16),
             Expanded(
-                child: FirebaseAnimatedList(
-                  query: refQ,
-                  itemBuilder: (context, snapshot, animation, index) {
-                    Map recipeMap = snapshot.value as Map;
-                    Recipe recipe = Recipe(
-                      title: recipeMap['title'],
-                      description: recipeMap['description'],
-                      imageUrl: recipeMap['imageUrl'],
-                      ingredients: List<Ingredient>.from(
-                        (recipeMap['ingredients'] as List).map(
-                              (ingredient) => Ingredient(
-                            name: ingredient['name'],
-                            quantity: ingredient['quantity'],
-                          ),
+              child: filteredRecipes.isNotEmpty || searchController.text.isEmpty
+                  ? ListView.builder(
+                      itemCount: filteredRecipes.isNotEmpty
+                          ? filteredRecipes.length
+                          : recipes.length,
+                      itemBuilder: (context, index) {
+                        return RecipeCard(
+                          recipe: filteredRecipes.isNotEmpty
+                              ? filteredRecipes[index]
+                              : recipes[index],
+                        );
+                      },
+                    )
+                  : Center(
+                      child: Text(
+                        'No matching recipes found.',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey,
                         ),
                       ),
-                      process: List<Process>.from(
-                        (recipeMap['process'] as List).map(
-                              (process) => Process(
-                            name: process['name'],
-                          ),
-                        ),
-                      ),
-                    );
-
-                    return RecipeCard(recipe: recipe);
-                  },
-                )
+                    ),
             ),
           ],
         ),
