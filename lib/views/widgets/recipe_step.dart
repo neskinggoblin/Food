@@ -173,6 +173,8 @@ class _RecipeStepScreenState extends State<RecipeStepScreen> {
                           setState(() {
                             currentStepIndex++;
                           });
+                        } else {
+                          showSubmitDialog();
                         }
                       },
                       style: ElevatedButton.styleFrom(

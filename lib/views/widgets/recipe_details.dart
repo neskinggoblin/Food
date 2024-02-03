@@ -13,8 +13,6 @@ class RecipeDetailsScreen extends StatefulWidget {
 }
 
 class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
-  bool ingredientsChecked = false;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,29 +46,37 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'รายละเอียด',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  Row(
+                    children: [
+                      Image.asset(
+                        'assets/img/detail.png',
+                        width: 30,
+                        height: 30,
+                      ),
+                      SizedBox(width: 7),
+                      Text(
+                        'รายละเอียด',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
                   SizedBox(height: 8),
                   Text(
                     widget.recipe.description,
                     style: TextStyle(fontSize: 16),
                   ),
-                  SizedBox(height: 8),
+                  SizedBox(height: 20),
                   Row(
                     children: [
-                      Checkbox(
-                        value: ingredientsChecked,
-                        onChanged: (value) {
-                          setState(() {
-                            ingredientsChecked = value!;
-                          });
-                        },
+                      Image.asset(
+                        'assets/img/chef_score.png',
+                        width: 20,
+                        height: 20,
                       ),
+                      SizedBox(width: 10),
                       Text(
                         'เเสกนวัตถุดิบ',
                         style: TextStyle(
@@ -92,14 +98,12 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                   ),
                   Row(
                     children: [
-                      Checkbox(
-                        value: ingredientsChecked,
-                        onChanged: (value) {
-                          setState(() {
-                            ingredientsChecked = value!;
-                          });
-                        },
+                      Image.asset(
+                        'assets/img/chef_score.png',
+                        width: 20,
+                        height: 20,
                       ),
+                      SizedBox(width: 10),
                       Text(
                         'ขั้นตอนการทำ',
                         style: TextStyle(
@@ -141,7 +145,7 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
             ElevatedButton(
               onPressed: () {
                 // Navigate to RecipeStepScreen on button press
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                     builder: (context) =>
