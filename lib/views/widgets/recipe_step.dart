@@ -1,5 +1,6 @@
-import '../../models/recipe.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import '../../models/recipe.dart';
 
 class RecipeStepScreen extends StatefulWidget {
   final Recipe recipe;
@@ -13,33 +14,73 @@ class RecipeStepScreen extends StatefulWidget {
 class _RecipeStepScreenState extends State<RecipeStepScreen> {
   int currentStepIndex = 0;
   int score = 0;
-  bool showScore = false;
 
   void showSubmitDialog() {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Congratulations!'),
-          content: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text('You have completed the recipe!'),
-              SizedBox(height: 16),
-              Text('Your Score: $score'),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                // Navigate go to RecipeDetailsScreen
-                Navigator.pushReplacementNamed(context, '/recipe_details',
-                    arguments: widget.recipe);
-              },
-              child: Text('OK'),
+        return WillPopScope(
+          onWillPop: () async => false,
+          child: AlertDialog(
+            title: Row(
+              children: [
+                Icon(
+                  Icons.star,
+                  color: Color.fromARGB(255, 228, 166, 10),
+                ),
+                SizedBox(width: 8),
+                Text(
+                  'Congratulations!',
+                ),
+              ],
             ),
-          ],
+            content: GestureDetector(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('You have completed the recipe!'),
+                  SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Score : $score',
+                        style: TextStyle(
+                          fontSize: 24,
+                          color: Color.fromARGB(255, 255, 153, 36),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      Image.asset(
+                        'assets/img/chef_score.png',
+                        width: 24,
+                        height: 24,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context); // Pop RecipeStepScreen
+                  Navigator.pushReplacementNamed(context, '/recipe_details',
+                      arguments: widget.recipe);
+                },
+                child: Text('OK'),
+              ),
+            ],
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16.0),
+            ),
+            backgroundColor: Color.fromARGB(255, 255, 255, 255),
+            elevation: 5,
+          ),
         );
       },
     );
@@ -54,7 +95,10 @@ class _RecipeStepScreenState extends State<RecipeStepScreen> {
           style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: Icon(
+            Icons.arrow_back,
+            color: Color(0xffFF9900),
+          ),
           onPressed: () {
             Navigator.pop(context);
           },

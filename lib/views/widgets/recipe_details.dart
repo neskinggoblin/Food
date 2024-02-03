@@ -20,6 +20,19 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.recipe.title),
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: Color(0xffFF9900), // กำหนดสีของไอคอน
+          ),
+          onPressed: () {
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              '/home_screen', // ตั้งค่า route ของหน้า HomeScreen ที่คุณต้องการไป
+              (route) => false, // ลบทุกหน้าที่อยู่บน stack ออกไป
+            );
+          },
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -131,7 +144,8 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => RecipeStepScreen(recipe: widget.recipe),
+                    builder: (context) =>
+                        RecipeStepScreen(recipe: widget.recipe),
                   ),
                 );
               },

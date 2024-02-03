@@ -1,4 +1,4 @@
-import 'package:appfoodpad/display.dart';
+import 'package:appfoodpad/views/home_screen.dart';
 
 import 'views/splash_screen.dart'; //
 import 'package:flutter/material.dart';
@@ -31,11 +31,13 @@ class MyApp extends StatelessWidget {
           if (arguments is Recipe) {
             return RecipeDetailsScreen(recipe: arguments);
           } else {
-            // Handle the error or navigate to an error page
-            return Container(); // Placeholder, คุณสามารถแก้ไขตามต้องการ
+            return Container(); // หรือแสดงหน้า error
           }
         },
-        // ... เส้นทางอื่น ๆ ของคุณ ...
+        "/home_screen": (context) {
+          return HomeScreen(); // หรือตัวอื่น ๆ ที่คุณต้องการ
+        },
+        // เพิ่มเส้นทางอื่น ๆ ที่คุณต้องการในนี้
       },
     );
   }
