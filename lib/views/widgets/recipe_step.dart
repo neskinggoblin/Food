@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 import 'dart:async';
 
+=======
+>>>>>>> 0a6c9ea3c534797cb63b55880fecade289457ceb
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../models/recipe.dart';
@@ -16,6 +19,7 @@ class RecipeStepScreen extends StatefulWidget {
 class _RecipeStepScreenState extends State<RecipeStepScreen> {
   int currentStepIndex = 0;
   int score = 0;
+<<<<<<< HEAD
   late int countdown;
 
   @override
@@ -44,6 +48,8 @@ class _RecipeStepScreenState extends State<RecipeStepScreen> {
 
     print("เริ่มต้นนับถอยหลัง 10 วินาที...");
   }
+=======
+>>>>>>> 0a6c9ea3c534797cb63b55880fecade289457ceb
 
   void showSubmitDialog() {
     showDialog(
@@ -137,6 +143,7 @@ class _RecipeStepScreenState extends State<RecipeStepScreen> {
       ),
       body: Column(
         children: [
+<<<<<<< HEAD
           SizedBox(height: 16),
           // Nested Row with two cards
           Row(
@@ -211,6 +218,25 @@ class _RecipeStepScreenState extends State<RecipeStepScreen> {
           ),
           SizedBox(height: 20),
 
+=======
+          Card(
+            margin: EdgeInsets.only(top: 28.0),
+            color: Colors.orange,
+            elevation: 3,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                'Cooking Steps',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: 16),
+>>>>>>> 0a6c9ea3c534797cb63b55880fecade289457ceb
           Container(
             width: double.infinity,
             padding: EdgeInsets.all(16.0),
@@ -259,8 +285,11 @@ class _RecipeStepScreenState extends State<RecipeStepScreen> {
                             widget.recipe.process.length - 1) {
                           setState(() {
                             currentStepIndex++;
+<<<<<<< HEAD
                             countdown =
                                 widget.recipe.process[currentStepIndex].timer;
+=======
+>>>>>>> 0a6c9ea3c534797cb63b55880fecade289457ceb
                           });
                         } else {
                           showSubmitDialog();
@@ -283,6 +312,7 @@ class _RecipeStepScreenState extends State<RecipeStepScreen> {
                     ElevatedButton(
                       onPressed: () {
                         if (currentStepIndex <
+<<<<<<< HEAD
                                 widget.recipe.process.length - 1 &&
                             countdown == 0) {
                           setState(() {
@@ -294,6 +324,14 @@ class _RecipeStepScreenState extends State<RecipeStepScreen> {
                         } else if (currentStepIndex ==
                                 widget.recipe.process.length - 1 &&
                             countdown == 0) {
+=======
+                            widget.recipe.process.length - 1) {
+                          setState(() {
+                            currentStepIndex++;
+                            score += 100;
+                          });
+                        } else {
+>>>>>>> 0a6c9ea3c534797cb63b55880fecade289457ceb
                           showSubmitDialog();
                           score += 100;
                         }

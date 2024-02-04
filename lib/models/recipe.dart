@@ -16,10 +16,15 @@ class Recipe {
 
 class Process {
   final String name;
+<<<<<<< HEAD
   final int timer;
   Process({
     required this.name,
     required this.timer,
+=======
+  Process({
+    required this.name,
+>>>>>>> 0a6c9ea3c534797cb63b55880fecade289457ceb
   });
 }
 

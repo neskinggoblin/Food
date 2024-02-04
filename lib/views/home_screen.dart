@@ -41,7 +41,10 @@ class _HomeScreenState extends State<HomeScreen> {
       for (var step in values['process']) {
         process.add(Process(
           name: step['name'],
+<<<<<<< HEAD
           timer: step['timer'],
+=======
+>>>>>>> 0a6c9ea3c534797cb63b55880fecade289457ceb
         ));
       }
 
