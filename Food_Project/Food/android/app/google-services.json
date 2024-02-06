@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "696529829468",
+    "project_id": "newappfoodpad",
+    "storage_bucket": "newappfoodpad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:696529829468:android:1aac2f5ecfe427ab087099",
+        "android_client_info": {
+          "package_name": "com.example.appfoodpad"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEzVNlMY5R3yDmTWxfT6qd65vTChycXGo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
